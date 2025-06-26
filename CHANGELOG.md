@@ -1,6 +1,7 @@
 # Changelog
 
 ## 2025-06-26
+- 2242 Add options menu with asset downloader and glb analysis scripts
 - 2221 Document new agents directory and split instructions
 - 2218 Fade chat bubbles before hiding
 - 2214 Show sent chat immediately and keep log of messages
@@ -10,7 +11,6 @@
 - 2147 Add HouseBlocks mesh kit
 - 2110 Fix build tool using undefined material index in object creator
 - 2057 Rework character creator modal layout for clearer flow
-- 2018 Add map UI button and close control
 
 ## Guidelines for future updates
 - List changes in reverse chronological order (newest first).
