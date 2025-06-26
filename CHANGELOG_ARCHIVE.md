@@ -19,4 +19,5 @@
 - 1928 Add rotate and undo buttons to basic build mode
 - 2018 Add map UI button and close control
 - 2057 Rework character creator modal layout for clearer flow
+- 2110 Fix build tool using undefined material index in object creator
 

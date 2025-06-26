@@ -181,16 +181,20 @@ export class MultiplayerManager {
 
     updatePlayerLabels() {
         const playerModel = this.playerControls.getPlayerModel();
-        
+        const time = performance.now() * 0.001;
+
         for (const clientId in this.otherPlayers) {
             const model = this.otherPlayers[clientId];
             const label = this.playerLabels[clientId];
             const chatBubble = this.chatMessages[clientId];
+            if (model && model.userData.updateAnimations) {
+                model.userData.updateAnimations(time);
+            }
             if (label && model) {
                 this.updateLabelPosition(model, label, chatBubble);
             }
         }
-        
+
         const localChatBubble = this.chatMessages[this.room.clientId];
         if (localChatBubble && playerModel) {
             this.updateLabelPosition(playerModel, null, localChatBubble);
