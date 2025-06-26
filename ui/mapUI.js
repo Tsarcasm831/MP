@@ -79,6 +79,7 @@ export class MapUI {
                     <span id="zoom-level-label"></span>
                     <button id="zoom-in-btn">+</button>
                 </div>
+                <div id="close-map">✕</div>
             </div>
         `;
 
@@ -90,7 +91,15 @@ export class MapUI {
         
         this.ctx = this.mapCanvas.getContext('2d');
 
+        const mapButton = document.createElement('div');
+        mapButton.id = 'map-button';
+        mapButton.innerText = 'MAP';
+        gameContainer.appendChild(mapButton);
+
         gameContainer.appendChild(this.mapContainer);
+
+        mapButton.addEventListener('click', () => this.toggle());
+        this.mapContainer.querySelector('#close-map').addEventListener('click', () => this.toggle());
 
         window.addEventListener('keydown', (e) => {
             if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') {
