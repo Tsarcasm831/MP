@@ -1,0 +1,24 @@
+{
+  "schema": {
+    "type": "string - category of asset such as image, model, audio or script",
+    "name": "string - human friendly asset name",
+    "url": "string - relative path or remote URL to download the asset"
+  },
+  "assets": [
+    {
+      "type": "image",
+      "name": "Ground texture",
+      "url": "ground_texture.png"
+    },
+    {
+      "type": "script",
+      "name": "App logic",
+      "url": "js/app.js"
+    },
+    {
+      "type": "script",
+      "name": "Input controls",
+      "url": "js/controls.js"
+    }
+  ]
+}
