@@ -90,6 +90,7 @@ export class PlayerControls {
   }
   
   initializeControls() {
+    document.body.classList.toggle('mobile-device', this.isMobile);
     if (this.isMobile) {
       this.initializeMobileControls();
     } else {
