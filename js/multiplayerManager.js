@@ -131,8 +131,11 @@ export class MultiplayerManager {
     }
 
     displayChatMessage(clientId, message) {
-        this.chatMessages[clientId].textContent = message;
-        this.chatMessages[clientId].style.display = 'block';
+        const bubble = this.chatMessages[clientId];
+        bubble.textContent = message;
+        bubble.style.display = 'block';
+        bubble.style.opacity = '1';
+        bubble.classList.remove('fade-out');
         const chatLog = document.getElementById('chat-log');
         if (chatLog) {
             const peerInfo = clientId === this.room.clientId ? { username: 'You' } : (this.room.peers[clientId] || {});
@@ -143,7 +146,14 @@ export class MultiplayerManager {
             chatLog.scrollTop = chatLog.scrollHeight;
         }
         setTimeout(() => {
-            if (this.chatMessages[clientId]) this.chatMessages[clientId].style.display = 'none';
+            if (bubble) {
+                const endHandler = () => {
+                    bubble.style.display = 'none';
+                    bubble.removeEventListener('transitionend', endHandler);
+                };
+                bubble.addEventListener('transitionend', endHandler, { once: true });
+                bubble.classList.add('fade-out');
+            }
         }, 5000);
     }
 

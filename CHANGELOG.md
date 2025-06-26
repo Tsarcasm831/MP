@@ -1,6 +1,7 @@
 # Changelog
 
 ## 2025-06-26
+- 2218 Fade chat bubbles before hiding
 - 2214 Show sent chat immediately and keep log of messages
 - 2206 Introduce mobile-device class for mobile controls
 - 2205 Display changelog in modal overlay
