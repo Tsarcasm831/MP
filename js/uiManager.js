@@ -21,7 +21,7 @@ export class UIManager {
         new ChangelogUI(this.dependencies).create();
         new ChatUI(this.dependencies).create();
         new CharacterCreatorUI(this.dependencies).create();
-        new OptionsUI().create();
+        new OptionsUI(this.dependencies).create();
         new AdModal(this.dependencies).setup();
 
         this.inventoryUI = new InventoryUI(this.dependencies);
