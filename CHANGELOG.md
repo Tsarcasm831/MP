@@ -1,6 +1,7 @@
 # Changelog
 
 ## 2025-06-26
+- 2205 Display changelog in modal overlay
 - 2153 Add changelog button above chat
 - 2147 Add HouseBlocks mesh kit
 - 2110 Fix build tool using undefined material index in object creator
@@ -10,7 +11,6 @@
 - 1928 Add rotate and undo buttons to basic build mode
 - 1928 Add pyramid shape to builder tool
 - 1918 Prevent objects from spawning on top of players
-- 1918 Revise character generator prompt for humanoid proportions and 3×3×3 size limit
 
 ## Guidelines for future updates
 - List changes in reverse chronological order (newest first).
