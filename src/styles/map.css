@@ -1,0 +1,78 @@
+#map-container {
+    background-color: var(--black-85);
+    color: white;
+    z-index: 2100; /* Above build controls etc. */
+    flex-direction: column;
+    align-items: center;
+    border: 2px solid var(--white-20);
+}
+
+#map-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+#map-header h2 {
+    margin: 0;
+    text-align: left;
+    flex-grow: 1;
+}
+
+#map-zoom-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+#map-zoom-controls button {
+    background-color: var(--white-20);
+    border: none;
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#map-zoom-controls button:hover {
+    background-color: var(--white-30);
+}
+
+#zoom-level-label {
+    font-weight: bold;
+    min-width: 60px;
+    text-align: center;
+}
+
+#map-canvas {
+    border: 1px solid var(--white-30);
+    border-radius: 5px;
+    background-color: #1a2a40; /* Same as TERRAIN_LOW_COLOR */
+}
+
+#map-button {
+    bottom: 50px;
+    left: 50px;
+    background-color: var(--white-50);
+}
+
+#close-map {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 20px;
+    height: 20px;
+    background-color: var(--white-70);
+    border-radius: 50%;
+    text-align: center;
+    line-height: 20px;
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+}

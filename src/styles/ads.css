@@ -1,0 +1,29 @@
+#ad-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--black-80);
+  z-index: 3000;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+#ad-close-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #f44336;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: not-allowed;
+  margin-top: 20px;
+}
+
+#ad-close-button:not([disabled]) {
+  cursor: pointer;
+}
+
