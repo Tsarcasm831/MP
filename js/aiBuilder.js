@@ -83,6 +83,8 @@ export class AIBuilder {
             Math.max(0.5, position.y || 0.5) / 5,
             Math.max(-50, Math.min(50, position.z || 0)) / 5
         );
+
+        if (this.buildTool.isLocationOccupiedByPlayer(buildObject.position)) return;
         const scale = objectData.scale || { x: 1, y: 1, z: 1 };
         buildObject.scale.set(
             Math.max(0.1, Math.min(10, scale.x || 1)) / 5,

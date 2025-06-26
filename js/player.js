@@ -222,6 +222,7 @@ function _createDefaultPlayerModel(playerGroup, username, characterSpec, default
 
 export function createPlayerModel(three, username, characterSpec) {
     const playerGroup = new THREE.Group();
+    playerGroup.userData.isPlayer = true;
     
     // Store character spec in userData for reference
     if (characterSpec) {

@@ -36,6 +36,8 @@ export class ObjectCreator {
         vector.add(this.camera.position);
         mesh.position.copy(vector);
 
+        if (this.buildTool.isLocationOccupiedByPlayer(mesh.position)) return null;
+
         const objectId = 'adv_build_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
         mesh.userData.id = objectId;
         mesh.userData.createdAt = Date.now();
@@ -53,6 +55,8 @@ export class ObjectCreator {
         duplicatedObject.position.copy(objectToDuplicate.position).add(new THREE.Vector3(0.5, 0, 0.5));
         duplicatedObject.rotation.copy(objectToDuplicate.rotation);
         duplicatedObject.scale.copy(objectToDuplicate.scale);
+
+        if (this.buildTool.isLocationOccupiedByPlayer(duplicatedObject.position)) return null;
 
         duplicatedObject.castShadow = true;
         duplicatedObject.receiveShadow = true;
@@ -88,6 +92,8 @@ export class ObjectCreator {
 
         const buildObject = new THREE.Mesh(geometry, material);
         buildObject.position.set(buildData.position.x, buildData.position.y, buildData.position.z);
+
+        if (this.buildTool.isLocationOccupiedByPlayer(buildObject.position)) return null;
         buildObject.scale.set(buildData.scale.x, buildData.scale.y, buildData.scale.z);
         buildObject.rotation.set(buildData.rotation.x, buildData.rotation.y, buildData.rotation.z);
         
