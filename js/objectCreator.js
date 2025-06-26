@@ -22,7 +22,7 @@ export class ObjectCreator {
         if (!objectDef) return null;
 
         const geometry = new THREE[objectDef.geometry](...objectDef.params);
-        const materialIndex = this.buildTool.currentMaterialIndex;
+        const materialIndex = this.buildTool.previewManager.getCurrentMaterialIndex();
         const material = this.buildTool.buildMaterials[materialIndex].clone();
         const mesh = new THREE.Mesh(geometry, material);
 
