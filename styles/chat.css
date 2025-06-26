@@ -71,3 +71,11 @@
   cursor: pointer;
 }
 
+#chat-log {
+  max-height: 150px;
+  overflow-y: auto;
+  margin-bottom: 8px;
+  color: #fff;
+  font-size: 14px;
+}
+
