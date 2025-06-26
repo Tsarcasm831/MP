@@ -141,6 +141,8 @@ export class BuildTool {
     const previewMesh = this.previewManager.getMesh();
     if (!previewMesh || !this.enabled) return;
 
+    if (this.isLocationOccupiedByPlayer(previewMesh.position)) return;
+
     // Create a new object at the preview position
     const buildGeometry = previewMesh.geometry.clone();
     const materialIndex = this.previewManager.getCurrentMaterialIndex();
@@ -253,6 +255,8 @@ export class BuildTool {
       buildData.position.y,
       buildData.position.z
     );
+
+    if (this.isLocationOccupiedByPlayer(buildObject.position)) return;
     buildObject.scale.set(
       buildData.scale.x,
       buildData.scale.y,
@@ -277,6 +281,18 @@ export class BuildTool {
   // Set the room for multiplayer build syncing
   setRoom(room) {
     this.room = room;
+  }
+
+  isLocationOccupiedByPlayer(position, radius = 1) {
+    let occupied = false;
+    this.scene.traverse((obj) => {
+      if (obj.userData && obj.userData.isPlayer) {
+        const playerPos = new THREE.Vector3();
+        obj.getWorldPosition(playerPos);
+        if (playerPos.distanceTo(position) < radius) occupied = true;
+      }
+    });
+    return occupied;
   }
 
   toggleBuildMode() {

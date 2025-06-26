@@ -1,5 +1,8 @@
 # Changelog
 
+## 2025-06-28
+- Prevent objects from spawning on top of players
+
 ## 2025-06-27
 - Revise character generator prompt for humanoid proportions and 3×3×3 size limit
 
