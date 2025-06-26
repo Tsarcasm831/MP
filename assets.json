@@ -23,17 +23,17 @@
     ,
     {
       "type": "model",
-      "name": "Idle animation",
+      "name": "Player idle animation",
       "url": "https://file.garden/Zy7B0LkdIVpGyzA1/Z1/player/Animation_Idle_withSkin.glb"
     },
     {
       "type": "model",
-      "name": "Walking animation",
+      "name": "Player walking animation",
       "url": "https://file.garden/Zy7B0LkdIVpGyzA1/Z1/player/Animation_Walking_withSkin.glb"
     },
     {
       "type": "model",
-      "name": "Running animation",
+      "name": "Player running animation",
       "url": "https://file.garden/Zy7B0LkdIVpGyzA1/Z1/player/Animation_Running_withSkin.glb"
     }
   ]
