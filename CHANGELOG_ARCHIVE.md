@@ -9,3 +9,5 @@
 - **cfb2ea7** Initial commit
 - Add AGENTS.md with changelog and testing guidelines
 
+- 2118 Make AI builder asynchronous with progress indicator
+
