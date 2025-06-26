@@ -7,6 +7,7 @@
 - Revise character generator prompt for humanoid proportions and 3×3×3 size limit
 
 ## 2025-06-26
+- Document using the current UTC date when updating the changelog
 - Add AGENTS.md with changelog and testing guidelines
 - **cfb2ea7** Initial commit
 - **08f04d4** Starting Point
