@@ -1,19 +1,11 @@
 #changelog-modal {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   background-color: var(--black-90);
   color: white;
-  padding: 20px;
-  border-radius: 10px;
   z-index: 2100;
   width: 90%;
   max-width: 600px;
   max-height: 80%;
   overflow-y: auto;
-  display: none;
-  box-shadow: 0 0 20px var(--black-50);
 }
 
 #close-changelog {

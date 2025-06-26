@@ -13,11 +13,13 @@ export class OptionsUI {
         const container = document.getElementById('game-container');
         const button = document.createElement('div');
         button.id = 'options-button';
+        button.classList.add('fixed-button');
         button.innerText = 'OPTIONS';
         container.appendChild(button);
 
         const modal = document.createElement('div');
         modal.id = 'options-modal';
+        modal.classList.add('modal-container');
         modal.style.display = 'none';
         modal.innerHTML = `
             <div id="close-options">✕</div>

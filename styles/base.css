@@ -87,3 +87,29 @@ button:hover {
 button:active {
   background-color: #d5d5d5;
 }
+
+/* Common utility classes */
+.fixed-button {
+  position: fixed;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  text-align: center;
+  line-height: 60px;
+  font-weight: bold;
+  color: #333;
+  z-index: 1000;
+  touch-action: none;
+  cursor: pointer;
+}
+
+.modal-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: none;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 20px var(--black-50);
+}
