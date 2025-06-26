@@ -6,6 +6,7 @@ import { CharacterCreatorUI } from '../ui/characterCreatorUI.js';
 import { AdModal } from '../ui/adModal.js';
 import { InventoryUI } from '../ui/inventoryUI.js';
 import { MapUI } from '../ui/mapUI.js';
+import { OptionsUI } from '../ui/optionsUI.js';
 
 export class UIManager {
     constructor(dependencies) {
@@ -20,6 +21,7 @@ export class UIManager {
         new ChangelogUI(this.dependencies).create();
         new ChatUI(this.dependencies).create();
         new CharacterCreatorUI(this.dependencies).create();
+        new OptionsUI().create();
         new AdModal(this.dependencies).setup();
 
         this.inventoryUI = new InventoryUI(this.dependencies);

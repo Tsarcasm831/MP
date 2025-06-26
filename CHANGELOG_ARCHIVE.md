@@ -17,4 +17,5 @@
 
 - 1958 Reserve spawn area so players don't load inside objects
 - 1928 Add rotate and undo buttons to basic build mode
+- 2018 Add map UI button and close control
 
