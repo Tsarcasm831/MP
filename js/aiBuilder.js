@@ -43,19 +43,33 @@ export class AIBuilder {
 
             const structureData = JSON.parse(completion.content);
             if (structureData.objects && Array.isArray(structureData.objects)) {
-                this.showIndicator(`Building: ${structureData.description}...`);
-                for (const objectData of structureData.objects) {
-                    await new Promise(resolve => setTimeout(resolve, 50));
-                    this.placeObject(objectData);
-                }
-                this.showIndicator(`Created: ${structureData.description}`, true);
-                setTimeout(() => this.hideIndicator(), 3000);
+                const total = structureData.objects.length;
+                let placed = 0;
+                this.showIndicator(`Building: ${structureData.description} (0%)...`, 0);
+
+                const buildNext = () => {
+                    if (placed >= total) {
+                        this.showIndicator(`Created: ${structureData.description}`, null, true);
+                        setTimeout(() => this.hideIndicator(), 3000);
+                        this.buildTool.aiBuilding = false;
+                        return;
+                    }
+
+                    this.placeObject(structureData.objects[placed]);
+                    placed++;
+                    const progress = Math.round((placed / total) * 100);
+                    this.showIndicator(`Building: ${structureData.description} (${progress}%)...`, progress);
+                    requestAnimationFrame(buildNext);
+                };
+
+                requestAnimationFrame(buildNext);
+            } else {
+                throw new Error('Invalid structure data');
             }
         } catch (error) {
             console.error('Error generating structure:', error);
-            this.showIndicator("Error creating structure. Please try again.", true);
+            this.showIndicator("Error creating structure. Please try again.", null, true);
             setTimeout(() => this.hideIndicator(), 3000);
-        } finally {
             this.buildTool.aiBuilding = false;
         }
     }
@@ -123,17 +137,19 @@ export class AIBuilder {
         }
     }
 
-    showIndicator(message, isComplete = false) {
+    showIndicator(message, progress = null, isComplete = false) {
         let indicator = document.getElementById('ai-building-indicator');
         if (!indicator) {
             indicator = document.createElement('div');
             indicator.id = 'ai-building-indicator';
             document.getElementById('game-container').appendChild(indicator);
         }
+        const progressBar = progress !== null && !isComplete ?
+            `<div class="ai-progress"><div class="ai-progress-bar" style="width:${progress}%"></div></div>` : '';
         indicator.innerHTML = `
             <div class="ai-building-message">
                 ${isComplete ? '' : '<div class="ai-loading-spinner"></div>'}
-                ${message}
+                <div class="ai-building-text">${message}${progressBar}</div>
             </div>
         `;
         indicator.style.display = 'flex';

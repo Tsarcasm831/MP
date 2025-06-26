@@ -10,7 +10,7 @@
 - 1918 Prevent objects from spawning on top of players
 - 1918 Revise character generator prompt for humanoid proportions and 3×3×3 size limit
 - Document using the current UTC date when updating the changelog
-- Add AGENTS.md with changelog and testing guidelines
+- 2118 Make AI builder asynchronous with progress indicator
 
 ## Guidelines for future updates
 - List changes in reverse chronological order (newest first).
