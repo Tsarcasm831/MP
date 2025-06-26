@@ -11,4 +11,5 @@
 
 - 2118 Make AI builder asynchronous with progress indicator
 - Document using the current UTC date when updating the changelog
+- 1918 Revise character generator prompt for humanoid proportions and 3×3×3 size limit
 

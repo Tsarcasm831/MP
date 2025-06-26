@@ -6,8 +6,27 @@ export class ChangelogUI {
         changelogButton.innerText = 'CHANGELOG';
         gameContainer.appendChild(changelogButton);
 
-        changelogButton.addEventListener('click', () => {
-            window.open('CHANGELOG.md', '_blank');
+        const changelogModal = document.createElement('div');
+        changelogModal.id = 'changelog-modal';
+        changelogModal.innerHTML = `
+            <div id="close-changelog">✕</div>
+            <pre id="changelog-content"></pre>
+        `;
+        gameContainer.appendChild(changelogModal);
+
+        changelogButton.addEventListener('click', async () => {
+            changelogModal.style.display = 'block';
+            const contentEl = changelogModal.querySelector('#changelog-content');
+            try {
+                const text = await fetch('CHANGELOG.md').then(r => r.text());
+                contentEl.textContent = text;
+            } catch (e) {
+                contentEl.textContent = 'Failed to load changelog.';
+            }
+        });
+
+        changelogModal.querySelector('#close-changelog').addEventListener('click', () => {
+            changelogModal.style.display = 'none';
         });
     }
 }
