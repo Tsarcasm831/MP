@@ -23,8 +23,10 @@ const BUILD_OBJECT_MARKER_SIZE = 2;
 const TERRAIN_LOW_COLOR = '#1a2a40';
 /* @tweakable The color of the terrain's highest parts. */
 const TERRAIN_HIGH_COLOR = '#99aa88';
-/* @tweakable The max height of terrain for color mapping. */
-const TERRAIN_MAX_HEIGHT_COLOR = 10;
+/* @tweakable The minimum height considered when coloring the terrain. */
+const TERRAIN_MIN_HEIGHT = -10;
+/* @tweakable The maximum height considered when coloring the terrain. */
+const TERRAIN_MAX_HEIGHT = 10;
 /* @tweakable The color of tree markers on the map. */
 const TREE_MARKER_COLOR = '#228b22';
 /* @tweakable The size of tree markers on the map. */
@@ -128,6 +130,9 @@ export class MapUI {
 
             const repeat = terrain.material.map.repeat;
 
+            const lowRgb = this.hexToRgb(TERRAIN_LOW_COLOR);
+            const highRgb = this.hexToRgb(TERRAIN_HIGH_COLOR);
+
             for (let y = 0; y < MAP_SIZE; y++) {
                 for (let x = 0; x < MAP_SIZE; x++) {
                     const worldX = (x / MAP_SIZE - 0.5) * this.CLUSTER_SIZE;
@@ -143,9 +148,16 @@ export class MapUI {
                     const texIndex = (texY * tmpCanvas.width + texX) * 4;
                     const index = (y * MAP_SIZE + x) * 4;
 
-                    data[index] = texData[texIndex];
-                    data[index + 1] = texData[texIndex + 1];
-                    data[index + 2] = texData[texIndex + 2];
+                    const height = terrain.userData.getHeight(worldX, worldZ);
+                    let t = (height - TERRAIN_MIN_HEIGHT) / (TERRAIN_MAX_HEIGHT - TERRAIN_MIN_HEIGHT);
+                    t = Math.max(0, Math.min(1, t));
+                    const shadeR = lowRgb.r + (highRgb.r - lowRgb.r) * t;
+                    const shadeG = lowRgb.g + (highRgb.g - lowRgb.g) * t;
+                    const shadeB = lowRgb.b + (highRgb.b - lowRgb.b) * t;
+
+                    data[index] = texData[texIndex] * 0.6 + shadeR * 0.4;
+                    data[index + 1] = texData[texIndex + 1] * 0.6 + shadeG * 0.4;
+                    data[index + 2] = texData[texIndex + 2] * 0.6 + shadeB * 0.4;
                     data[index + 3] = 255;
                 }
             }
