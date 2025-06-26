@@ -10,4 +10,5 @@
 - Add AGENTS.md with changelog and testing guidelines
 
 - 2118 Make AI builder asynchronous with progress indicator
+- Document using the current UTC date when updating the changelog
 

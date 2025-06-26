@@ -1,6 +1,7 @@
 # Changelog
 
 ## 2025-06-26
+- 2153 Add changelog button above chat
 - 2147 Add HouseBlocks mesh kit
 - 2110 Fix build tool using undefined material index in object creator
 - 2057 Rework character creator modal layout for clearer flow
@@ -10,7 +11,6 @@
 - 1928 Add pyramid shape to builder tool
 - 1918 Prevent objects from spawning on top of players
 - 1918 Revise character generator prompt for humanoid proportions and 3×3×3 size limit
-- Document using the current UTC date when updating the changelog
 
 ## Guidelines for future updates
 - List changes in reverse chronological order (newest first).
