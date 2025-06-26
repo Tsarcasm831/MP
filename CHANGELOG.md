@@ -1,6 +1,7 @@
 # Changelog
 
 ## 2025-06-26
+- Add AGENTS.md with changelog and testing guidelines
 - **cfb2ea7** Initial commit
 - **08f04d4** Starting Point
 - **c210851** Add static object markers to MapUI
