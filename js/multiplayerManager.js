@@ -133,6 +133,15 @@ export class MultiplayerManager {
     displayChatMessage(clientId, message) {
         this.chatMessages[clientId].textContent = message;
         this.chatMessages[clientId].style.display = 'block';
+        const chatLog = document.getElementById('chat-log');
+        if (chatLog) {
+            const peerInfo = clientId === this.room.clientId ? { username: 'You' } : (this.room.peers[clientId] || {});
+            const name = peerInfo.username || `Player${clientId.substring(0, 4)}`;
+            const entry = document.createElement('div');
+            entry.textContent = `${name}: ${message}`;
+            chatLog.appendChild(entry);
+            chatLog.scrollTop = chatLog.scrollHeight;
+        }
         setTimeout(() => {
             if (this.chatMessages[clientId]) this.chatMessages[clientId].style.display = 'none';
         }, 5000);

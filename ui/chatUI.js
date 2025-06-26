@@ -2,6 +2,7 @@ export class ChatUI {
     constructor(dependencies) {
         this.playerControls = dependencies.playerControls;
         this.room = dependencies.room;
+        this.multiplayerManager = dependencies.multiplayerManager;
     }
 
     create() {
@@ -9,6 +10,11 @@ export class ChatUI {
 
         const chatInputContainer = document.createElement('div');
         chatInputContainer.id = 'chat-input-container';
+
+        const chatLog = document.createElement('div');
+        chatLog.id = 'chat-log';
+        chatInputContainer.appendChild(chatLog);
+
         const chatInput = document.createElement('input');
         chatInput.id = 'chat-input';
         chatInput.type = 'text';
@@ -27,6 +33,7 @@ export class ChatUI {
         chatButton.innerText = 'CHAT';
         gameContainer.appendChild(chatButton);
 
+
         const openChatInput = () => {
             chatInputContainer.style.display = 'block';
             chatInput.focus();
@@ -43,6 +50,9 @@ export class ChatUI {
             const message = chatInput.value.trim();
             if (message) {
                 this.room.updatePresence({ chat: { message, timestamp: Date.now() } });
+                if (this.multiplayerManager) {
+                    this.multiplayerManager.displayChatMessage(this.room.clientId, message);
+                }
                 closeChatInput();
             }
         }
