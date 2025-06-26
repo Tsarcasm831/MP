@@ -466,8 +466,8 @@ export class BuildTool {
   }
 
   // AI-powered building generation
-  async aiGenerateStructure(prompt) {
-    await this.aiBuilder.generateStructure(prompt);
+  aiGenerateStructure(prompt) {
+    this.aiBuilder.generateStructure(prompt);
   }
 
   toggleLifespanExtender() {

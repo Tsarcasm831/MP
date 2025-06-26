@@ -145,14 +145,14 @@ export class BuildUI {
             document.getElementById('ai-build-modal').style.display = 'block';
         });
 
-        document.querySelector('#ai-build-modal button.generate').addEventListener('click', async () => {
+        document.querySelector('#ai-build-modal button.generate').addEventListener('click', () => {
             const prompt = document.getElementById('ai-build-prompt').value.trim();
             if (prompt.length < 3) {
                 alert('Please enter a longer description');
                 return;
             }
             document.getElementById('ai-build-modal').style.display = 'none';
-            await this.buildTool.aiGenerateStructure(prompt);
+            this.buildTool.aiGenerateStructure(prompt);
         });
 
         document.querySelector('#ai-build-modal button.cancel').addEventListener('click', () => {

@@ -7,4 +7,5 @@
 - **c210851** Add static object markers to MapUI
 - **08f04d4** Starting Point
 - **cfb2ea7** Initial commit
+- Add AGENTS.md with changelog and testing guidelines
 
