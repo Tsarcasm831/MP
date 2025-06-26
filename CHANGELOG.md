@@ -1,6 +1,7 @@
 # Changelog
 
 ## 2025-06-26
+- 2057 Rework character creator modal layout for clearer flow
 - 2018 Add map UI button and close control
 - 1958 Reserve spawn area so players don't load inside objects
 - 1928 Add rotate and undo buttons to basic build mode
@@ -10,7 +11,6 @@
 - Document using the current UTC date when updating the changelog
 - Add AGENTS.md with changelog and testing guidelines
 - **cfb2ea7** Initial commit
-- **08f04d4** Starting Point
 
 ## Guidelines for future updates
 - List changes in reverse chronological order (newest first).
