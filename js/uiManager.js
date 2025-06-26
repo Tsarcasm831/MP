@@ -1,6 +1,7 @@
 import { BuildUI } from '../ui/buildUI.js';
 import { AdvancedBuildUI } from '../ui/advancedBuildUI.js';
 import { ChatUI } from '../ui/chatUI.js';
+import { ChangelogUI } from '../ui/changelogUI.js';
 import { CharacterCreatorUI } from '../ui/characterCreatorUI.js';
 import { AdModal } from '../ui/adModal.js';
 import { InventoryUI } from '../ui/inventoryUI.js';
@@ -16,6 +17,7 @@ export class UIManager {
     init() {
         new BuildUI(this.dependencies).create();
         new AdvancedBuildUI(this.dependencies).create();
+        new ChangelogUI(this.dependencies).create();
         new ChatUI(this.dependencies).create();
         new CharacterCreatorUI(this.dependencies).create();
         new AdModal(this.dependencies).setup();
