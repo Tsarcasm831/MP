@@ -52,12 +52,14 @@ export class MapUI {
         this.CHUNK_SIZE = ZONE_SIZE * ZONES_PER_CHUNK_SIDE;
         this.CLUSTER_SIZE = this.CHUNK_SIZE * CHUNKS_PER_CLUSTER_SIDE;
 
+        // Order zoom levels from most zoomed-in to widest view
         this.zoomLevels = [
-            { name: 'Cluster', scale: this.CLUSTER_SIZE },
+            { name: 'Zone', scale: ZONE_SIZE },
             { name: 'Chunk', scale: this.CHUNK_SIZE },
-            { name: 'Zone', scale: ZONE_SIZE }
+            { name: 'Cluster', scale: this.CLUSTER_SIZE }
         ];
-        this.currentZoomIndex = 1; // Default to Chunk view
+        // Start at Chunk view
+        this.currentZoomIndex = 1;
 
         this.terrainCanvas = null; // for pre-rendering terrain
     }
