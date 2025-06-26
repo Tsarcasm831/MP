@@ -15,3 +15,6 @@
 - 1918 Prevent objects from spawning on top of players
 - 1928 Add pyramid shape to builder tool
 
+- 1958 Reserve spawn area so players don't load inside objects
+- 1928 Add rotate and undo buttons to basic build mode
+
