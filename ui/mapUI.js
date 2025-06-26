@@ -110,34 +110,45 @@ export class MapUI {
         this.terrainCanvas.height = MAP_SIZE;
         const terrainCtx = this.terrainCanvas.getContext('2d');
         const terrain = this.playerControls.terrain;
-        if (!terrain || !terrain.userData.getHeight) return;
-        const getHeight = terrain.userData.getHeight;
+        if (!terrain || !terrain.material || !terrain.material.map) return;
 
-        const imageData = terrainCtx.createImageData(MAP_SIZE, MAP_SIZE);
-        const data = imageData.data;
-        const lowColor = this.hexToRgb(TERRAIN_LOW_COLOR);
-        const highColor = this.hexToRgb(TERRAIN_HIGH_COLOR);
-        
-        for (let y = 0; y < MAP_SIZE; y++) {
-            for (let x = 0; x < MAP_SIZE; x++) {
-                const worldX = (x / MAP_SIZE - 0.5) * this.CLUSTER_SIZE;
-                const worldZ = (y / MAP_SIZE - 0.5) * this.CLUSTER_SIZE;
-                
-                const height = getHeight(worldX, worldZ);
-                const normalizedHeight = Math.max(0, Math.min(1, height / TERRAIN_MAX_HEIGHT_COLOR));
-                
-                const r = lowColor.r + (highColor.r - lowColor.r) * normalizedHeight;
-                const g = lowColor.g + (highColor.g - lowColor.g) * normalizedHeight;
-                const b = lowColor.b + (highColor.b - lowColor.b) * normalizedHeight;
+        const textureLoader = new THREE.TextureLoader();
+        textureLoader.load('ground_texture.png', (texture) => {
+            const tmpCanvas = document.createElement('canvas');
+            tmpCanvas.width = texture.image.width;
+            tmpCanvas.height = texture.image.height;
+            const tmpCtx = tmpCanvas.getContext('2d');
+            tmpCtx.drawImage(texture.image, 0, 0);
+            const texData = tmpCtx.getImageData(0, 0, tmpCanvas.width, tmpCanvas.height).data;
 
-                const index = (y * MAP_SIZE + x) * 4;
-                data[index] = r;
-                data[index + 1] = g;
-                data[index + 2] = b;
-                data[index + 3] = 255;
+            const imageData = terrainCtx.createImageData(MAP_SIZE, MAP_SIZE);
+            const data = imageData.data;
+
+            const repeat = terrain.material.map.repeat;
+
+            for (let y = 0; y < MAP_SIZE; y++) {
+                for (let x = 0; x < MAP_SIZE; x++) {
+                    const worldX = (x / MAP_SIZE - 0.5) * this.CLUSTER_SIZE;
+                    const worldZ = (y / MAP_SIZE - 0.5) * this.CLUSTER_SIZE;
+
+                    let u = ((worldX / this.CLUSTER_SIZE) + 0.5) * repeat.x;
+                    let v = ((worldZ / this.CLUSTER_SIZE) + 0.5) * repeat.y;
+                    u = ((u % 1) + 1) % 1;
+                    v = ((v % 1) + 1) % 1;
+
+                    const texX = Math.floor(u * tmpCanvas.width);
+                    const texY = Math.floor(v * tmpCanvas.height);
+                    const texIndex = (texY * tmpCanvas.width + texX) * 4;
+                    const index = (y * MAP_SIZE + x) * 4;
+
+                    data[index] = texData[texIndex];
+                    data[index + 1] = texData[texIndex + 1];
+                    data[index + 2] = texData[texIndex + 2];
+                    data[index + 3] = 255;
+                }
             }
-        }
-        terrainCtx.putImageData(imageData, 0, 0);
+            terrainCtx.putImageData(imageData, 0, 0);
+        });
     }
 
     gatherStaticObjects() {
