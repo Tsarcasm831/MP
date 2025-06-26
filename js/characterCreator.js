@@ -156,11 +156,15 @@ export class CharacterCreator {
         document.getElementById('generate-character-button').disabled = true;
 
         try {
+            // System prompt for AI character generation.
+            // Encourages humanoid proportions when appropriate and uses
+            // individual primitives for head, torso and limbs.
+            // All shapes must stay within a 3x3x3 area for consistent collision.
             const messages = [{
                 role: "system",
                 content: `Convert the user's character description into a structured 3D character model description.
-                The model should reflect what they describe - not necessarily humanoid.
-                SIZE CONSTRAINT: No dimension should exceed 2x2 units. Keep all features within a 2x2x2 cube.
+                The model should reflect what they describe. When a humanoid form is implied, keep roughly human proportions and use separate primitives for the head, torso and each limb.
+                SIZE CONSTRAINT: No dimension should exceed 3x3 units. Keep all features within a 3x3x3 cube for more detailed shapes.
                 Respond with ONLY JSON, following this schema:
                 {
                   "customMode": true,
@@ -181,7 +185,8 @@ export class CharacterCreator {
                 }
                 Create a fully custom design using multiple primitive shapes.
                 Place at least one feature near Y=0 as the 'base' for proper collision.
-                IMPORTANT: Keep all shapes within a 2x2x2 area centered on the character.
+                IMPORTANT: Keep all shapes within a 3x3x3 area centered on the character.
+                Use textures and colors that closely match the description for realism.
                 If legs should animate, name them "leftLeg" and "rightLeg".
                 CRITICAL: Ensure at least one component extends to Y=0 or below for ground anchor.
                 Be creative and interpret the user's description freely while respecting size constraints.`
