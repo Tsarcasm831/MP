@@ -14,19 +14,26 @@ export class CharacterCreatorUI {
         const characterModal = document.createElement('div');
         characterModal.id = 'character-creator-modal';
         characterModal.innerHTML = `
-            <h2>Character Creator</h2>
-            <textarea id="character-description" placeholder="Describe your character (e.g. 'a red robot with glowing eyes')"></textarea>
-            <div id="reference-image-container">
-              <label for="reference-image" class="reference-upload-label">Upload Reference Image (Optional)</label>
-              <input type="file" id="reference-image" accept="image/*">
-              <div id="reference-preview"></div>
-            </div>
-            <div id="character-status"></div>
-            <div id="character-preview"></div>
-            <div class="buttons">
-              <button id="generate-character-button">Generate</button>
-              <button id="apply-character-button">Apply & Save</button>
-              <button id="cancel-character-button">Cancel</button>
+            <h2>Create Character</h2>
+            <div class="creator-body">
+              <div class="creator-inputs">
+                <label for="character-description">Description</label>
+                <textarea id="character-description" placeholder="e.g. 'a red robot with glowing eyes'"></textarea>
+                <div id="reference-image-container">
+                  <label for="reference-image" class="reference-upload-label">Reference Image (optional)</label>
+                  <input type="file" id="reference-image" accept="image/*">
+                  <div id="reference-preview"></div>
+                </div>
+                <button id="generate-character-button">Generate</button>
+                <div id="character-status"></div>
+              </div>
+              <div class="creator-preview">
+                <div id="character-preview"></div>
+                <div class="creator-actions">
+                  <button id="apply-character-button">Apply & Save</button>
+                  <button id="cancel-character-button">Close</button>
+                </div>
+              </div>
             </div>
             <h3>Preset Characters</h3>
             <div class="character-gallery" id="preset-gallery"></div>
