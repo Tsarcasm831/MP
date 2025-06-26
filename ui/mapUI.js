@@ -1,3 +1,4 @@
+import * as THREE from 'three';
 import { ZONE_SIZE, ZONES_PER_CHUNK_SIDE, CHUNKS_PER_CLUSTER_SIDE } from '../js/worldGeneration.js';
 
 /* @tweakable The base size of the map display in pixels. */
@@ -24,6 +25,14 @@ const TERRAIN_LOW_COLOR = '#1a2a40';
 const TERRAIN_HIGH_COLOR = '#99aa88';
 /* @tweakable The max height of terrain for color mapping. */
 const TERRAIN_MAX_HEIGHT_COLOR = 10;
+/* @tweakable The color of tree markers on the map. */
+const TREE_MARKER_COLOR = '#228b22';
+/* @tweakable The size of tree markers on the map. */
+const TREE_MARKER_SIZE = 2;
+/* @tweakable The color of barrier markers on the map. */
+const BARRIER_MARKER_COLOR = '#888888';
+/* @tweakable The size of barrier markers on the map. */
+const BARRIER_MARKER_SIZE = 2;
 
 export class MapUI {
     constructor(dependencies) {
@@ -36,6 +45,9 @@ export class MapUI {
         this.mapCanvas = null;
         this.ctx = null;
         this.isOpen = false;
+
+        this.scene = this.playerControls.scene;
+        this.staticObjects = { trees: [], barriers: [] };
         
         this.CHUNK_SIZE = ZONE_SIZE * ZONES_PER_CHUNK_SIDE;
         this.CLUSTER_SIZE = this.CHUNK_SIZE * CHUNKS_PER_CLUSTER_SIDE;
@@ -89,8 +101,9 @@ export class MapUI {
         document.getElementById('zoom-out-btn').addEventListener('click', () => this.zoomOut());
 
         this.preRenderTerrain();
+        this.gatherStaticObjects();
     }
-    
+
     preRenderTerrain() {
         this.terrainCanvas = document.createElement('canvas');
         this.terrainCanvas.width = MAP_SIZE;
@@ -125,6 +138,20 @@ export class MapUI {
             }
         }
         terrainCtx.putImageData(imageData, 0, 0);
+    }
+
+    gatherStaticObjects() {
+        if (!this.scene) return;
+        this.staticObjects.trees = [];
+        this.staticObjects.barriers = [];
+        this.scene.traverse(obj => {
+            if (!obj.userData) return;
+            if (obj.userData.isTree) {
+                this.staticObjects.trees.push(obj);
+            } else if (obj.userData.isBarrier) {
+                this.staticObjects.barriers.push(obj);
+            }
+        });
     }
     
     hexToRgb(hex) {
@@ -221,7 +248,28 @@ export class MapUI {
             this.ctx.lineTo(MAP_SIZE, linePos.y);
             this.ctx.stroke();
         }
-        
+
+        // Draw static objects
+        const tempPos = new THREE.Vector3();
+
+        this.ctx.fillStyle = TREE_MARKER_COLOR;
+        this.staticObjects.trees.forEach(obj => {
+            obj.getWorldPosition(tempPos);
+            const mapPos = this.worldToMap(tempPos, mapCenter, mapScale);
+            if (mapPos.x >= 0 && mapPos.x <= MAP_SIZE && mapPos.y >= 0 && mapPos.y <= MAP_SIZE) {
+                this.ctx.fillRect(mapPos.x - TREE_MARKER_SIZE / 2, mapPos.y - TREE_MARKER_SIZE / 2, TREE_MARKER_SIZE, TREE_MARKER_SIZE);
+            }
+        });
+
+        this.ctx.fillStyle = BARRIER_MARKER_COLOR;
+        this.staticObjects.barriers.forEach(obj => {
+            obj.getWorldPosition(tempPos);
+            const mapPos = this.worldToMap(tempPos, mapCenter, mapScale);
+            if (mapPos.x >= 0 && mapPos.x <= MAP_SIZE && mapPos.y >= 0 && mapPos.y <= MAP_SIZE) {
+                this.ctx.fillRect(mapPos.x - BARRIER_MARKER_SIZE / 2, mapPos.y - BARRIER_MARKER_SIZE / 2, BARRIER_MARKER_SIZE, BARRIER_MARKER_SIZE);
+            }
+        });
+
         // Draw build objects
         const allObjects = [...this.buildTool.buildObjects, ...this.advancedBuildTool.advancedBuildObjects];
         this.ctx.fillStyle = BUILD_OBJECT_MARKER_COLOR;
