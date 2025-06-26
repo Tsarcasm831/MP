@@ -168,7 +168,7 @@ export class BuildTool {
     // Sync build object with other players if room is available
     if (this.room) {
       // Get geometry type
-      const geometryType = buildObject.geometry.type;
+      const geometryType = previewMesh.userData.shapeName || buildObject.geometry.type;
 
       // Create build object data
       const buildData = {
@@ -236,6 +236,9 @@ export class BuildTool {
         break;
       case 'TorusGeometry':
         geometry = new THREE.TorusGeometry(0.5, 0.2, 16, 32);
+        break;
+      case 'Pyramid':
+        geometry = new THREE.ConeGeometry(0.5, 1, 4);
         break;
       default:
         geometry = new THREE.BoxGeometry(1, 1, 1);
@@ -374,6 +377,27 @@ export class BuildTool {
 
   changeSize() {
     this.previewManager.changeSize();
+  }
+
+  rotatePreview() {
+    this.previewManager.rotate();
+  }
+
+  undoLastObject() {
+    if (this.buildObjects.length === 0) return;
+    const lastObject = this.buildObjects.pop();
+    this.scene.remove(lastObject);
+    if (this.room && this.room.roomState.buildObjects && lastObject.userData.id) {
+      const updatedBuildObjects = { ...(this.room.roomState.buildObjects) };
+      delete updatedBuildObjects[lastObject.userData.id];
+      this.room.updateRoomState({
+        buildObjects: updatedBuildObjects
+      });
+      this.room.send({
+        type: 'delete_build_object',
+        objectId: lastObject.userData.id
+      });
+    }
   }
 
   onMouseDown(event) {
