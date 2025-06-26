@@ -1,0 +1,65 @@
+#map-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.85);
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    z-index: 2100; /* Above build controls etc. */
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+#map-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+#map-header h2 {
+    margin: 0;
+    text-align: left;
+    flex-grow: 1;
+}
+
+#map-zoom-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+#map-zoom-controls button {
+    background-color: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#map-zoom-controls button:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+#zoom-level-label {
+    font-weight: bold;
+    min-width: 60px;
+    text-align: center;
+}
+
+#map-canvas {
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 5px;
+    background-color: #1a2a40; /* Same as TERRAIN_LOW_COLOR */
+}

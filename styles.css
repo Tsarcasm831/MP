@@ -1,0 +1,12 @@
+/* 
+This file has been refactored. Its contents were moved to separate files inside the /styles/ directory to improve organization and maintainability.
+- styles/base.css
+- styles/mobile.css
+- styles/overlays.css
+- styles/chat.css
+- styles/character-creator.css
+- styles/build.css
+- styles/inventory.css
+- styles/ads.css
+- styles/responsive.css
+*/
