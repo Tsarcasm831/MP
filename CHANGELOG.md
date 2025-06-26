@@ -1,6 +1,8 @@
 # Changelog
 
 ## 2025-06-26
+- 1928 Add rotate and undo buttons to basic build mode
+- 1928 Add pyramid shape to builder tool
 - 1918 Prevent objects from spawning on top of players
 - 1918 Revise character generator prompt for humanoid proportions and 3×3×3 size limit
 - Document using the current UTC date when updating the changelog

@@ -32,6 +32,8 @@ export class BuildUI {
             <button id="shape-button">Change Shape</button>
             <button id="material-button">Change Material</button>
             <button id="size-button">Change Size</button>
+            <button id="rotate-button">Rotate</button>
+            <button id="undo-button">Undo</button>
             <button id="advanced-mode-button">Advanced Mode</button>
             <button id="ai-build-button">AI Build</button>
             <button id="lifespan-extender-button">Extend Lifespan</button>
@@ -69,6 +71,8 @@ export class BuildUI {
         document.getElementById('shape-button').addEventListener('click', () => this.buildTool.changeShape());
         document.getElementById('material-button').addEventListener('click', () => this.buildTool.changeMaterial());
         document.getElementById('size-button').addEventListener('click', () => this.buildTool.changeSize());
+        document.getElementById('rotate-button').addEventListener('click', () => this.buildTool.rotatePreview());
+        document.getElementById('undo-button').addEventListener('click', () => this.buildTool.undoLastObject());
 
         document.getElementById('exit-build-button').addEventListener('click', () => {
             this.buildTool.toggleBuildMode();
@@ -97,7 +101,7 @@ export class BuildUI {
         document.getElementById('lifespan-extender-button').addEventListener('click', () => {
             const isExtenderActive = this.buildTool.toggleLifespanExtender();
             document.getElementById('lifespan-extender-button').classList.toggle('active', isExtenderActive);
-            const buttonsToToggle = ['shape-button', 'material-button', 'size-button', 'advanced-mode-button', 'ai-build-button'];
+            const buttonsToToggle = ['shape-button', 'material-button', 'size-button', 'rotate-button', 'undo-button', 'advanced-mode-button', 'ai-build-button'];
             buttonsToToggle.forEach(id => {
               document.getElementById(id).style.display = isExtenderActive ? 'none' : 'block';
             });

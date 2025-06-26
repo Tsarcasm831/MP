@@ -11,6 +11,16 @@ export class PreviewManager {
         this.currentMaterialIndex = 0;
         this.currentHeight = 0.5;
 
+        this.shapes = [
+            { geometry: new THREE.BoxGeometry(1, 1, 1), name: 'BoxGeometry' },
+            { geometry: new THREE.SphereGeometry(0.5, 16, 16), name: 'SphereGeometry' },
+            { geometry: new THREE.CylinderGeometry(0.5, 0.5, 1, 16), name: 'CylinderGeometry' },
+            { geometry: new THREE.ConeGeometry(0.5, 1, 16), name: 'ConeGeometry' },
+            { geometry: new THREE.TorusGeometry(0.5, 0.2, 16, 32), name: 'TorusGeometry' },
+            { geometry: new THREE.ConeGeometry(0.5, 1, 4), name: 'Pyramid' }
+        ];
+        this.currentShapeIndex = 0;
+
         this.raycaster = new THREE.Raycaster();
         this.mousePosition = new THREE.Vector2();
 
@@ -21,7 +31,7 @@ export class PreviewManager {
         if (this.previewMesh) {
             this.scene.remove(this.previewMesh);
         }
-        const geometry = new THREE.BoxGeometry(1, 1, 1);
+        const geometry = this.shapes[this.currentShapeIndex].geometry.clone();
         const material = this.buildMaterials[this.currentMaterialIndex].clone();
         material.transparent = true;
         material.opacity = 0.5;
@@ -30,6 +40,7 @@ export class PreviewManager {
         this.previewMesh.castShadow = false;
         this.previewMesh.receiveShadow = false;
         this.previewMesh.userData.heightAdjusted = false;
+        this.previewMesh.userData.shapeName = this.shapes[this.currentShapeIndex].name;
         this.scene.add(this.previewMesh);
     }
 
@@ -70,28 +81,16 @@ export class PreviewManager {
         if (!this.previewMesh) return;
         this.scene.remove(this.previewMesh);
 
-        const geometries = [
-            new THREE.BoxGeometry(1, 1, 1),
-            new THREE.SphereGeometry(0.5, 16, 16),
-            new THREE.CylinderGeometry(0.5, 0.5, 1, 16),
-            new THREE.ConeGeometry(0.5, 1, 16),
-            new THREE.TorusGeometry(0.5, 0.2, 16, 32)
-        ];
-        const currentGeometryType = this.previewMesh.geometry.type;
-        let nextGeometryIndex = 0;
-        for (let i = 0; i < geometries.length; i++) {
-            if (geometries[i].type === currentGeometryType) {
-                nextGeometryIndex = (i + 1) % geometries.length;
-                break;
-            }
-        }
+        this.currentShapeIndex = (this.currentShapeIndex + 1) % this.shapes.length;
 
+        const geometry = this.shapes[this.currentShapeIndex].geometry.clone();
         const material = this.buildMaterials[this.currentMaterialIndex].clone();
         material.transparent = true;
         material.opacity = 0.5;
-        this.previewMesh = new THREE.Mesh(geometries[nextGeometryIndex], material);
+        this.previewMesh = new THREE.Mesh(geometry, material);
         this.previewMesh.castShadow = false;
         this.previewMesh.receiveShadow = false;
+        this.previewMesh.userData.shapeName = this.shapes[this.currentShapeIndex].name;
         this.scene.add(this.previewMesh);
     }
 
@@ -122,6 +121,11 @@ export class PreviewManager {
             }
         }
         this.previewMesh.scale.copy(scales[nextScaleIndex]);
+    }
+
+    rotate() {
+        if (!this.previewMesh) return;
+        this.previewMesh.rotation.y += Math.PI / 2;
     }
     
     adjustHeight(delta) {

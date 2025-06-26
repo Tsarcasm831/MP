@@ -80,6 +80,7 @@ export class ObjectCreator {
             case 'CylinderGeometry': geometry = new THREE.CylinderGeometry(0.5, 0.5, 1, 16); break;
             case 'ConeGeometry': geometry = new THREE.ConeGeometry(0.5, 1, 16); break;
             case 'TorusGeometry': geometry = new THREE.TorusGeometry(0.5, 0.2, 16, 32); break;
+            case 'Pyramid': geometry = new THREE.ConeGeometry(0.5, 1, 4); break;
             default: geometry = new THREE.BoxGeometry(1, 1, 1);
         }
 
