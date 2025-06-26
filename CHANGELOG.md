@@ -1,6 +1,7 @@
 # Changelog
 
 ## 2025-06-26
+- 2206 Introduce mobile-device class for mobile controls
 - 2205 Display changelog in modal overlay
 - 2153 Add changelog button above chat
 - 2147 Add HouseBlocks mesh kit
