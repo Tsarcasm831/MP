@@ -3,7 +3,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: rgba(0, 0, 0, 0.9);
+  background-color: var(--black-90);
   color: white;
   padding: 20px;
   border-radius: 10px;
@@ -13,7 +13,7 @@
   max-height: 80%;
   overflow-y: auto;
   display: none;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 20px var(--black-50);
 }
 
 #close-changelog {
@@ -22,7 +22,7 @@
   right: 10px;
   width: 20px;
   height: 20px;
-  background-color: rgba(255, 255, 255, 0.7);
+  background-color: var(--white-70);
   border-radius: 50%;
   text-align: center;
   line-height: 20px;
