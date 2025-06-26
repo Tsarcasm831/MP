@@ -1,6 +1,7 @@
 # Changelog
 
 ## 2025-06-26
+- 1958 Reserve spawn area so players don't load inside objects
 - 1928 Add rotate and undo buttons to basic build mode
 - 1928 Add pyramid shape to builder tool
 - 1918 Prevent objects from spawning on top of players
@@ -10,9 +11,6 @@
 - **cfb2ea7** Initial commit
 - **08f04d4** Starting Point
 - **c210851** Add static object markers to MapUI
-- **7d0177a** Merge: extend MapUI to handle scene objects
-- **d335b69** Use texture sampling for map terrain
-- **858612b** Merge: load texture and update terrain rendering
 
 ## Guidelines for future updates
 - List changes in reverse chronological order (newest first).

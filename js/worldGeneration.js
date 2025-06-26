@@ -21,6 +21,8 @@ export const CHUNKS_PER_CLUSTER_SIDE = 5;
 
 const CHUNK_SIZE = ZONE_SIZE * ZONES_PER_CHUNK_SIDE;
 const CLUSTER_SIZE = CHUNK_SIZE * CHUNKS_PER_CLUSTER_SIDE;
+/* @tweakable Radius around the origin kept clear of objects for safe spawning */
+export const SPAWN_SAFE_RADIUS = 10;
 
 /* @tweakable The maximum height of the terrain. */
 const TERRAIN_AMPLITUDE = 10;
@@ -119,9 +121,9 @@ export function createBarriers(scene, getHeight) {
     const wallGeometry = new THREE.BoxGeometry(width, height, depth);
     const wall = new THREE.Mesh(wallGeometry, wallMaterial);
     
-    // Random position, but not too close to center
+    // Random position outside the spawn safe area
     const angle = rng.random() * Math.PI * 2;
-    const distance = rng.random() * worldRadius;  
+    const distance = SPAWN_SAFE_RADIUS + rng.random() * (worldRadius - SPAWN_SAFE_RADIUS);
     wall.position.x = Math.cos(angle) * distance;
     wall.position.z = Math.sin(angle) * distance;
     const terrainHeight = getHeight ? getHeight(wall.position.x, wall.position.z) : 0;
@@ -138,7 +140,7 @@ export function createBarriers(scene, getHeight) {
   const pillarCount = totalZones * PILLARS_PER_ZONE;
   for (let i = 0; i < pillarCount; i++) {
     const angle = rng.random() * Math.PI * 2;
-    const distance = rng.random() * worldRadius;
+    const distance = SPAWN_SAFE_RADIUS + rng.random() * (worldRadius - SPAWN_SAFE_RADIUS);
     const x = Math.cos(angle) * distance;
     const z = Math.sin(angle) * distance;
     
@@ -291,9 +293,9 @@ export function createTrees(scene, getHeight) {
       }
     }
     
-    // Random position, avoiding center area and existing barriers
+    // Random position outside the spawn safe area and existing barriers
     const angle = rng.random() * Math.PI * 2;
-    const distance = rng.random() * worldRadius;  
+    const distance = SPAWN_SAFE_RADIUS + rng.random() * (worldRadius - SPAWN_SAFE_RADIUS);
     tree.position.x = Math.cos(angle) * distance;
     tree.position.z = Math.sin(angle) * distance;
     tree.position.y = getHeight ? getHeight(tree.position.x, tree.position.z) : 0;
