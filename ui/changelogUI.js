@@ -3,6 +3,7 @@ export class ChangelogUI {
         const gameContainer = document.getElementById('game-container');
         const changelogButton = document.createElement('div');
         changelogButton.id = 'changelog-button';
+        changelogButton.classList.add('circle-button');
         changelogButton.innerText = 'CHANGELOG';
         gameContainer.appendChild(changelogButton);
 

@@ -14,6 +14,7 @@ export class OptionsUI {
         const container = document.getElementById('game-container');
         const button = document.createElement('div');
         button.id = 'options-button';
+        button.classList.add('circle-button');
         button.innerText = 'OPTIONS';
         container.appendChild(button);
 

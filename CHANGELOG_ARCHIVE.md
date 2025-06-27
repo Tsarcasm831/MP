@@ -23,3 +23,4 @@
 - 2147 Add HouseBlocks mesh kit
 
 - 2153 Add changelog button above chat
+- 2205 Display changelog in modal overlay

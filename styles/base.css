@@ -87,3 +87,17 @@ button:hover {
 button:active {
   background-color: #d5d5d5;
 }
+
+.circle-button {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  white-space: nowrap;
+  overflow: hidden;
+  box-sizing: border-box;
+  font-size: 11px;
+}
