@@ -19,11 +19,6 @@ export function setupAnimatedPlayer(model, idleClip, walkClip, runClip) {
 
     actions.idle.play();
 
-    // Apply a rotation offset so the GLB faces the same direction as procedural models
-    const rotationOffset = -Math.PI / 2;
-    model.rotation.y = rotationOffset;
-    model.userData.rotationOffset = rotationOffset;
-
     model.userData.mixer = mixer;
     model.userData.actions = actions;
     model.userData.isAnimatedGLB = true;
