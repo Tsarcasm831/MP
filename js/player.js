@@ -1,5 +1,32 @@
 import * as THREE from 'three';
 
+export function setupAnimatedPlayer(model, idleClip, walkClip, runClip) {
+    // Rename clips for easier access
+    idleClip.name = 'idle';
+    walkClip.name = 'walk';
+    runClip.name = 'run';
+    model.animations = [idleClip, walkClip, runClip];
+
+    const mixer = new THREE.AnimationMixer(model);
+    const actions = {
+        idle: mixer.clipAction(idleClip),
+        walk: mixer.clipAction(walkClip),
+        run: mixer.clipAction(runClip),
+    };
+    
+    /* @tweakable Duration for fading between animations in seconds. */
+    const animationFadeDuration = 0.5;
+
+    actions.idle.play();
+
+    model.userData.mixer = mixer;
+    model.userData.actions = actions;
+    model.userData.isAnimatedGLB = true;
+    model.userData.animationFadeDuration = animationFadeDuration;
+
+    return model;
+}
+
 function _createCustomPlayerModel(playerGroup, characterSpec) {
     if (!characterSpec.features || !Array.isArray(characterSpec.features)) {
         return;

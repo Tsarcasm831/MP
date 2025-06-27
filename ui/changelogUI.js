@@ -3,13 +3,11 @@ export class ChangelogUI {
         const gameContainer = document.getElementById('game-container');
         const changelogButton = document.createElement('div');
         changelogButton.id = 'changelog-button';
-        changelogButton.classList.add('fixed-button');
         changelogButton.innerText = 'CHANGELOG';
         gameContainer.appendChild(changelogButton);
 
         const changelogModal = document.createElement('div');
         changelogModal.id = 'changelog-modal';
-        changelogModal.classList.add('modal-container');
         changelogModal.innerHTML = `
             <div id="close-changelog">✕</div>
             <pre id="changelog-content"></pre>

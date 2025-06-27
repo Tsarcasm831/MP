@@ -1,9 +1,17 @@
 #inventory-panel {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   background-color: var(--black-90);
   color: white;
+  padding: 20px;
+  border-radius: 10px;
   z-index: 2000;
+  display: none;
   width: 90%;
   max-width: 500px;
+  box-shadow: 0 0 20px var(--black-50);
 }
 
 #inventory-panel h2 {

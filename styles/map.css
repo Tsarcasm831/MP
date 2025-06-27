@@ -1,9 +1,17 @@
 #map-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     background-color: var(--black-85);
     color: white;
+    padding: 20px;
+    border-radius: 10px;
     z-index: 2100; /* Above build controls etc. */
+    display: none;
     flex-direction: column;
     align-items: center;
+    box-shadow: 0 0 20px var(--black-50);
     border: 2px solid var(--white-20);
 }
 
@@ -57,9 +65,20 @@
 }
 
 #map-button {
+    position: fixed;
     bottom: 50px;
     left: 50px;
     background-color: var(--white-50);
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    text-align: center;
+    line-height: 60px;
+    font-weight: bold;
+    color: #333;
+    z-index: 1000;
+    touch-action: none;
+    cursor: pointer;
 }
 
 #close-map {

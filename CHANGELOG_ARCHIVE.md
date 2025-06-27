@@ -21,6 +21,4 @@
 - 2057 Rework character creator modal layout for clearer flow
 - 2110 Fix build tool using undefined material index in object creator
 - 2147 Add HouseBlocks mesh kit
-- 2153 Add changelog button above chat
-- 2205 Display changelog in modal overlay
 

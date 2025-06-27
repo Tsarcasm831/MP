@@ -70,7 +70,6 @@ export class MapUI {
         const gameContainer = document.getElementById('game-container');
         this.mapContainer = document.createElement('div');
         this.mapContainer.id = 'map-container';
-        this.mapContainer.classList.add('modal-container');
 
         this.mapContainer.innerHTML = `
             <div id="map-header">
@@ -94,7 +93,6 @@ export class MapUI {
 
         const mapButton = document.createElement('div');
         mapButton.id = 'map-button';
-        mapButton.classList.add('fixed-button');
         mapButton.innerText = 'MAP';
         gameContainer.appendChild(mapButton);
 

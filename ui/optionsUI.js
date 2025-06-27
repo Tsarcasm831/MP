@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { Downloader } from '../js/downloader.js';
+import { setupAnimatedPlayer } from '../js/player.js';
 
 export class OptionsUI {
     constructor(dependencies) {
@@ -13,13 +14,11 @@ export class OptionsUI {
         const container = document.getElementById('game-container');
         const button = document.createElement('div');
         button.id = 'options-button';
-        button.classList.add('fixed-button');
         button.innerText = 'OPTIONS';
         container.appendChild(button);
 
         const modal = document.createElement('div');
         modal.id = 'options-modal';
-        modal.classList.add('modal-container');
         modal.style.display = 'none';
         modal.innerHTML = `
             <div id="close-options">✕</div>
@@ -61,28 +60,70 @@ export class OptionsUI {
             replaceBtn.style.display = 'block';
         } catch (e) {
             status.textContent = 'Failed to download assets.';
+            console.error(e);
         }
     }
 
-    replacePlayer() {
-        if (!this.assets) return;
+    async replacePlayer() {
+        if (!this.assets) {
+            document.getElementById('download-status').textContent = 'Please download assets first.';
+            return;
+        }
 
-        const idle = this.assets['Player idle animation'];
-        if (!idle) return;
+        const idleAsset = this.assets['Player idle animation'];
+        const walkAsset = this.assets['Player walking animation'];
+        const runAsset = this.assets['Player running animation'];
 
-        const url = URL.createObjectURL(idle);
+        if (!idleAsset || !walkAsset || !runAsset) {
+            document.getElementById('download-status').textContent = 'Animation assets missing.';
+            console.error("One or more player animation assets are missing.");
+            return;
+        }
+
+        const status = document.getElementById('download-status');
+        status.textContent = 'Loading animated player...';
+
         const loader = new GLTFLoader();
-        loader.load(url, (gltf) => {
+
+        const idleUrl = URL.createObjectURL(idleAsset);
+        const walkUrl = URL.createObjectURL(walkAsset);
+        const runUrl = URL.createObjectURL(runAsset);
+
+        try {
+            const [gltfIdle, gltfWalk, gltfRun] = await Promise.all([
+                loader.loadAsync(idleUrl),
+                loader.loadAsync(walkUrl),
+                loader.loadAsync(runUrl),
+            ]);
+
+            const model = gltfIdle.scene;
+            setupAnimatedPlayer(model, gltfIdle.animations[0], gltfWalk.animations[0], gltfRun.animations[0]);
+
             const scene = this.dependencies.playerControls.scene;
             const controls = this.dependencies.playerControls;
+
             if (controls.playerModel) {
                 scene.remove(controls.playerModel);
             }
-            const model = gltf.scene;
+
             model.traverse(c => { c.castShadow = true; });
             scene.add(model);
             controls.playerModel = model;
-            URL.revokeObjectURL(url);
-        });
+            controls.playerModel.userData.isGLB = true; // Flag for multiplayer presence
+
+            // Reset currentAction on playerControls
+            controls.currentAction = 'idle';
+
+            status.textContent = 'Player model replaced with animated version.';
+
+        } catch (error) {
+            console.error('Error loading player animations:', error);
+            status.textContent = 'Failed to load animated player.';
+        } finally {
+             // Ensure urls are revoked even if something fails
+             URL.revokeObjectURL(idleUrl);
+             URL.revokeObjectURL(walkUrl);
+             URL.revokeObjectURL(runUrl);
+        }
     }
 }

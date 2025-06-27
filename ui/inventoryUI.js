@@ -8,7 +8,6 @@ export class InventoryUI {
     create() {
         const inventoryPanel = document.createElement('div');
         inventoryPanel.id = 'inventory-panel';
-        inventoryPanel.classList.add('modal-container');
         inventoryPanel.innerHTML = `
             <h2>Inventory</h2>
             <div class="inventory-grid"></div>

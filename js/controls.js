@@ -19,6 +19,8 @@ export class PlayerControls {
     this.terrain = options.terrain;
     this.lastPosition = new THREE.Vector3();
     this.isMoving = false;
+    this.lastUpdateTime = 0;
+    this.currentAction = 'idle';
     
     // Player state
     this.velocity = new THREE.Vector3();
@@ -66,31 +68,23 @@ export class PlayerControls {
     // If room is provided, initialize multiplayer presence
     if (this.room) {
       // Initialize player presence in the room - include characterSpec if available
+      const presenceData = {
+        x: this.playerX,
+        y: this.playerY,
+        z: this.playerZ,
+        rotation: 0,
+        moving: false
+      };
       if (this.playerModel && this.playerModel.userData.characterSpec) {
-        this.room.updatePresence({
-          x: this.playerX,
-          y: this.playerY,
-          z: this.playerZ,
-          rotation: 0,
-          moving: false,
-          characterSpec: this.playerModel.userData.characterSpec
-        });
-      } else {
-        this.room.updatePresence({
-          x: this.playerX,
-          y: this.playerY,
-          z: this.playerZ,
-          rotation: 0,
-          moving: false
-        });
+        presenceData.characterSpec = this.playerModel.userData.characterSpec;
       }
+      this.room.updatePresence(presenceData);
     }
     
     this.enabled = true; // Add enabled flag for chat input
   }
   
   initializeControls() {
-    document.body.classList.toggle('mobile-device', this.isMobile);
     if (this.isMobile) {
       this.initializeMobileControls();
     } else {
@@ -379,32 +373,55 @@ export class PlayerControls {
       this.canJump = true;
     }
     
-    const isMovingNow = movement.length() > 0;
+    const isMovingNow = movement.length() > 0.001;
     this.isMoving = isMovingNow;
     
     if (this.playerModel) {
       this.playerModel.position.set(newX, newY, newZ);
       
-      if (movement.length() > 0) {
+      if (isMovingNow) {
         const angle = Math.atan2(movement.x, movement.z);
         this.playerModel.rotation.y = angle;
+      }
+      
+      // Handle animations
+      if (this.playerModel.userData.isAnimatedGLB) {
+        const actions = this.playerModel.userData.actions;
+        const fadeDuration = this.playerModel.userData.animationFadeDuration;
         
-        const leftLeg = this.playerModel.getObjectByName("leftLeg");
-        const rightLeg = this.playerModel.getObjectByName("rightLeg");
+        let newActionName = isMovingNow ? 'walk' : 'idle';
         
-        if (leftLeg && rightLeg) {
-          const walkSpeed = 5; 
-          const walkAmplitude = 0.3;
-          leftLeg.rotation.x = Math.sin(this.time * walkSpeed) * walkAmplitude;
-          rightLeg.rotation.x = Math.sin(this.time * walkSpeed + Math.PI) * walkAmplitude;
+        if (this.currentAction !== newActionName) {
+            const from = actions[this.currentAction];
+            const to = actions[newActionName];
+            if(from && to) {
+                from.fadeOut(fadeDuration);
+                to.reset().fadeIn(fadeDuration).play();
+            }
+            this.currentAction = newActionName;
         }
       } else {
-        const leftLeg = this.playerModel.getObjectByName("leftLeg");
-        const rightLeg = this.playerModel.getObjectByName("rightLeg");
-        
-        if (leftLeg && rightLeg) {
-          leftLeg.rotation.x = 0;
-          rightLeg.rotation.x = 0;
+        // Fallback to procedural leg animation for custom characters
+        if (isMovingNow) {
+            const leftLeg = this.playerModel.getObjectByName("leftLeg");
+            const rightLeg = this.playerModel.getObjectByName("rightLeg");
+            
+            if (leftLeg && rightLeg) {
+              /* @tweakable Speed of the procedural leg swing animation. */
+              const walkSpeed = 5; 
+              /* @tweakable Amplitude of the procedural leg swing animation. */
+              const walkAmplitude = 0.3;
+              leftLeg.rotation.x = Math.sin(this.time * walkSpeed) * walkAmplitude;
+              rightLeg.rotation.x = Math.sin(this.time * walkSpeed + Math.PI) * walkAmplitude;
+            }
+        } else {
+            const leftLeg = this.playerModel.getObjectByName("leftLeg");
+            const rightLeg = this.playerModel.getObjectByName("rightLeg");
+            
+            if (leftLeg && rightLeg) {
+              leftLeg.rotation.x = 0;
+              rightLeg.rotation.x = 0;
+            }
         }
       }
       
@@ -421,25 +438,21 @@ export class PlayerControls {
           this.isMoving !== this.wasMoving
         )) {
         
-        // Include character spec in presence update if available
-        if (this.playerModel && this.playerModel.userData.characterSpec) {
-          this.room.updatePresence({
-            x: newX,
-            y: newY,
-            z: newZ,
-            rotation: this.playerModel.rotation.y,
-            moving: this.isMoving,
-            characterSpec: this.playerModel.userData.characterSpec
-          });
-        } else {
-          this.room.updatePresence({
-            x: newX,
-            y: newY,
-            z: newZ,
-            rotation: this.playerModel.rotation.y,
-            moving: this.isMoving
-          });
+        const presenceData = {
+          x: newX,
+          y: newY,
+          z: newZ,
+          rotation: this.playerModel.rotation.y,
+          moving: this.isMoving,
+        };
+
+        if (this.playerModel.userData.isGLB) {
+          presenceData.isGLB = true;
+        } else if (this.playerModel.userData.characterSpec) {
+          presenceData.characterSpec = this.playerModel.userData.characterSpec;
         }
+        
+        this.room.updatePresence(presenceData);
         
         this.lastPosition.set(newX, newY, newZ);
         this.wasMoving = this.isMoving;
@@ -458,12 +471,20 @@ export class PlayerControls {
   
   update() {
     const now = performance.now();
+    const delta = (now - (this.lastUpdateTime || now)) / 1000;
+    this.lastUpdateTime = now;
+
     this.time = (now * 0.01) % 1000; // Use performance.now() for consistent timing
     
     if (this.enabled) {
       this.processMovement();
     }
     
+    // Update animation mixer if it exists
+    if (this.playerModel && this.playerModel.userData.mixer) {
+        this.playerModel.userData.mixer.update(delta);
+    }
+
     // Always update controls even when movement is disabled
     if (this.controls) {
       this.controls.update();

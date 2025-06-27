@@ -30,7 +30,6 @@ export class ChatUI {
         
         const chatButton = document.createElement('div');
         chatButton.id = 'chat-button';
-        chatButton.classList.add('fixed-button');
         chatButton.innerText = 'CHAT';
         gameContainer.appendChild(chatButton);
 
