@@ -381,8 +381,7 @@ export class PlayerControls {
       
       if (isMovingNow) {
         const angle = Math.atan2(movement.x, movement.z);
-        const offset = this.playerModel.userData.rotationOffset || 0;
-        this.playerModel.rotation.y = angle + offset;
+        this.playerModel.rotation.y = angle;
       }
       
       // Handle animations
@@ -439,12 +438,11 @@ export class PlayerControls {
           this.isMoving !== this.wasMoving
         )) {
         
-        const offset = this.playerModel.userData.rotationOffset || 0;
         const presenceData = {
           x: newX,
           y: newY,
           z: newZ,
-          rotation: this.playerModel.rotation.y - offset,
+          rotation: this.playerModel.rotation.y,
           moving: this.isMoving,
         };
 
