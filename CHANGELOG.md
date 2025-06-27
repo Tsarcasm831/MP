@@ -3,6 +3,7 @@
 ## 2025-06-27
 - 1623 Fix stylesheet path in index.html
 - 1633 Add circle-button class and apply to UI buttons
+- 1742 Fix idle animation orientation for animated player model
 
 ## 2025-06-26
 - 2314 Add theme stylesheet and replace color constants
