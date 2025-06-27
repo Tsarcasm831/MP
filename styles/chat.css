@@ -28,10 +28,7 @@
   right: 50px;
   background-color: var(--white-50);
   border-radius: 50%;
-  width: 60px;
-  height: 60px;
   text-align: center;
-  line-height: 60px;
   font-weight: bold;
   color: #333;
   z-index: 1000;
@@ -45,10 +42,7 @@
   right: 50px;
   background-color: var(--white-50);
   border-radius: 50%;
-  width: 60px;
-  height: 60px;
   text-align: center;
-  line-height: 60px;
   font-weight: bold;
   color: #333;
   z-index: 1000;

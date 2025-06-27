@@ -93,6 +93,7 @@ export class MapUI {
 
         const mapButton = document.createElement('div');
         mapButton.id = 'map-button';
+        mapButton.classList.add('circle-button');
         mapButton.innerText = 'MAP';
         gameContainer.appendChild(mapButton);
 
